@@ -46,12 +46,12 @@ https://zenkoh.github.io/Calisthenics.Coach/
 ```text
 index.html                   Application shell and route sections
 styles.css                   Responsive design system
-js/app.js                    UI orchestration and application state
+js/app*.js                   Modular UI orchestration and application state
 js/planner.js                Deterministic constraint-aware planner
 js/workout.js                Rep, timer, set, rest and completion engine
 js/db.js                     IndexedDB persistence and backup
 js/avatar.js                 Local SVG pose renderer
-content/exercises.json       Canonical 144-exercise catalogue
+content/catalogue*.gz        Compressed canonical 144-exercise catalogue
 content/programmes.json      Built-in programme templates
 service-worker.js            Offline cache and update lifecycle
 manifest.webmanifest         PWA install metadata
@@ -67,11 +67,7 @@ No compilation is required.
 python3 -m http.server 8000
 ```
 
-Open:
-
-```text
-http://localhost:8000
-```
+Open `http://localhost:8000`.
 
 ## Validate
 
@@ -82,23 +78,12 @@ npm run check
 
 ## GitHub Pages
 
-The repository includes `.github/workflows/pages.yml` using the official Pages actions.
+The repository includes `.github/workflows/pages.yml` using the official Pages actions. In GitHub, open **Settings → Pages**, choose **GitHub Actions**, then push or merge to `main`.
 
-In GitHub:
+## Safety and privacy
 
-1. Open **Settings → Pages**.
-2. Under **Build and deployment**, choose **GitHub Actions**.
-3. Push or merge to `main`.
-4. The deployment workflow validates the app and publishes the repository.
-
-## Safety scope
-
-This project is educational fitness software, not medical advice, physiotherapy, diagnosis or emergency guidance. See [Safety and scope](safety.html).
-
-## Privacy
-
-All app-created data remains in the current browser unless the user exports it. See [Privacy](privacy.html).
+This is educational fitness software, not medical advice, physiotherapy, diagnosis or emergency guidance. All app-created data remains in the current browser unless the user exports it. See [Safety and scope](safety.html) and [Privacy](privacy.html).
 
 ## Licence
 
-MIT for application code. Exercise content remains prototype educational content and should receive professional domain review before clinical, school or commercial deployment.
+MIT for application code. Exercise content is prototype educational content and should receive qualified domain review before clinical, school or commercial deployment.

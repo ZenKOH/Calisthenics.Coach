@@ -1,0 +1,12 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import { gunzipSync } from 'node:zlib';
+import { generatePlan } from '../js/planner.js';
+const index=JSON.parse(await fs.readFile(new URL('../content/catalogue-index.json',import.meta.url),'utf8'));
+const parts=await Promise.all(index.parts.map(part=>fs.readFile(new URL(`../content/${part.replace('./','')}`,import.meta.url))));
+const exercises=JSON.parse(gunzipSync(Buffer.concat(parts)).toString('utf8')).exercises;
+const base={goal:'balanced',level:'beginner',duration:20,energy:3,impact:'low',quiet:true,smallSpace:true,equipment:[]};
+test('planner is deterministic for identical inputs on the same date',()=>assert.deepEqual(generatePlan(exercises,base,[]).items,generatePlan(exercises,base,[]).items));
+test('quiet no-equipment plan respects constraints',()=>{for(const item of generatePlan(exercises,base,[]).items){const ex=exercises.find(row=>row.id===item.exerciseId);assert.equal(ex.noise,'quiet');assert.equal(ex.equipment.length,0);assert.notEqual(ex.difficulty,'advanced')}});
+test('foundation plan excludes higher difficulty and impact',()=>{const plan=generatePlan(exercises,{...base,level:'foundation',impact:'none',goal:'mobility'},[]);for(const item of plan.items){const ex=exercises.find(row=>row.id===item.exerciseId);assert.equal(ex.difficulty,'foundation');assert.equal(ex.impact,'none')}});

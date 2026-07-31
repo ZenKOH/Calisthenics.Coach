@@ -1,0 +1,18 @@
+{
+  "id": "./",
+  "name": "Calisthenics.Coach",
+  "short_name": "Calisthenics",
+  "description": "A private, local-first bodyweight training planner, exercise library and guided workout coach.",
+  "start_url": "./#today",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f3f6f4",
+  "theme_color": "#17352d",
+  "categories": ["fitness", "health", "education", "lifestyle"],
+  "icons": [{"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
+  "shortcuts": [
+    {"name":"Plan today","short_name":"Plan","url":"./#today","icons":[{"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml"}]},
+    {"name":"Exercise library","short_name":"Library","url":"./#library","icons":[{"src":"./icons/icon.svg","sizes":"any","type":"image/svg+xml"}]}
+  ]
+}

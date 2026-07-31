@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import { gunzipSync } from 'node:zlib';
+const index=JSON.parse(await fs.readFile(new URL('../content/catalogue-index.json',import.meta.url),'utf8'));
+const parts=await Promise.all(index.parts.map(part=>fs.readFile(new URL(`../content/${part.replace('./','')}`,import.meta.url))));
+const payload=JSON.parse(gunzipSync(Buffer.concat(parts)).toString('utf8'));
+const exercises=payload.exercises;
+test('catalogue contains 144 structured exercises',()=>{assert.equal(exercises.length,144);assert.equal(index.count,144)});
+test('catalogue spans twelve movement families',()=>assert.equal(new Set(exercises.map(ex=>ex.family)).size,12));
+test('every exercise has a progression-aware record',()=>exercises.forEach(ex=>{assert.ok(ex.id.startsWith('ex-'));assert.equal(ex.phases.length,4);assert.ok(ex.prescription.target>0);assert.ok(ex.safety.notes.length>0)}));

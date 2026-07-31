@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#17352d">
+  <meta name="description" content="Calisthenics.Coach is a private, local-first bodyweight training planner, exercise library and guided workout PWA.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Calisthenics.Coach</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <div class="brand-wrap">
+      <a class="brand" href="#today" aria-label="Calisthenics.Coach home">
+        <span class="brand-mark" aria-hidden="true">C</span>
+        <span><strong>Calisthenics</strong><em>.Coach</em></span>
+      </a>
+      <p class="brand-tagline">Train with structure. Progress with control.</p>
+    </div>
+    <button id="menuButton" class="icon-button mobile-only" type="button" aria-expanded="false" aria-controls="primaryNav">Menu</button>
+    <nav id="primaryNav" class="primary-nav" aria-label="Primary navigation">
+      <a href="#today" data-route="today">Today</a>
+      <a href="#library" data-route="library">Library</a>
+      <a href="#programmes" data-route="programmes">Programmes</a>
+      <a href="#workout" data-route="workout">Workout</a>
+      <a href="#progress" data-route="progress">Progress</a>
+      <a href="#learn" data-route="learn">Learn</a>
+      <a href="#settings" data-route="settings">Settings</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section id="today" class="route-page" data-page="today">
+      <div class="hero-grid shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Local-first bodyweight training</p>
+          <h1>Build a session that fits today.</h1>
+          <p class="lead">Choose your time, training focus and practical constraints. Calisthenics.Coach creates a balanced, explainable session from a structured library of bodyweight movements.</p>
+          <div class="hero-points" aria-label="Product principles">
+            <span>No account</span><span>Works offline</span><span>No body-shaming</span><span>Manual control always available</span>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <p class="mini-label">Today’s principle</p>
+          <blockquote>Consistency beats complexity. Start with a manageable session and progress one variable at a time.</blockquote>
+          <p class="fine-print">General fitness education only. Stop for pain, dizziness, chest discomfort, faintness or unusual shortness of breath.</p>
+        </aside>
+      </div>
+
+      <div class="shell page-grid">
+        <section class="panel planner-panel" aria-labelledby="plannerTitle">
+          <div class="section-heading">
+            <div><p class="eyebrow">Adaptive planner</p><h2 id="plannerTitle">Plan today’s workout</h2></div>
+            <span class="status-chip">Deterministic</span>
+          </div>
+          <form id="plannerForm" class="form-grid">
+            <label>Training focus
+              <select id="goalInput" name="goal">
+                <option value="balanced">Balanced full body</option>
+                <option value="strength">Strength foundation</option>
+                <option value="calisthenics">Calisthenics skills</option>
+                <option value="core">Core control</option>
+                <option value="conditioning">Conditioning</option>
+                <option value="mobility">Mobility</option>
+                <option value="balance">Balance & function</option>
+              </select>
+            </label>
+            <label>Experience
+              <select id="levelInput" name="level">
+                <option value="foundation">Foundation</option>
+                <option value="beginner" selected>Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </label>
+            <label>Available time
+              <select id="durationInput" name="duration">
+                <option value="10">10 minutes</option>
+                <option value="15">15 minutes</option>
+                <option value="20" selected>20 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="40">40 minutes</option>
+              </select>
+            </label>
+            <label>Energy today
+              <span class="range-row"><input id="energyInput" name="energy" type="range" min="1" max="5" value="3"><output id="energyOutput">3 / 5</output></span>
+            </label>
+            <label>Maximum impact
+              <select id="impactInput" name="impact">
+                <option value="none">No impact</option>
+                <option value="low" selected>Low impact</option>
+                <option value="moderate">Moderate impact</option>
+                <option value="high">High impact</option>
+              </select>
+            </label>
+            <fieldset class="form-fieldset">
+              <legend>Practical constraints</legend>
+              <label class="check"><input id="quietInput" type="checkbox"> Quiet session</label>
+              <label class="check"><input id="smallSpaceInput" type="checkbox" checked> Small space</label>
+            </fieldset>
+            <fieldset class="form-fieldset span-2">
+              <legend>Available supports or equipment</legend>
+              <div id="plannerEquipment" class="check-grid"></div>
+            </fieldset>
+            <button class="button primary span-2" type="submit">Generate session</button>
+          </form>
+        </section>
+
+        <section class="panel plan-panel" aria-labelledby="todayPlanTitle">
+          <div class="section-heading">
+            <div><p class="eyebrow">Session plan</p><h2 id="todayPlanTitle">Your workout</h2></div>
+            <span id="planDurationBadge" class="status-chip muted">Not generated</span>
+          </div>
+          <div id="planExplanation" class="explanation-box">Complete the planner to build a session.</div>
+          <div id="generatedPlan" class="plan-list empty-state">No session generated yet.</div>
+          <div class="button-row">
+            <button id="startGeneratedButton" class="button primary" type="button" disabled>Start workout</button>
+            <button id="saveGeneratedButton" class="button secondary" type="button" disabled>Save as programme</button>
+            <button id="downloadPlanButton" class="button ghost" type="button" disabled>Download</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="library" class="route-page shell" data-page="library" hidden>
+      <div class="page-title-row"><div><p class="eyebrow">Exercise knowledge system</p><h1>Exercise library</h1><p class="lead compact">Browse 144 structured movements across no-equipment, environmental-support and calisthenics-equipment tiers.</p></div><div id="libraryCount" class="metric-card small"></div></div>
+      <section class="panel filter-panel" aria-label="Exercise filters">
+        <label class="search-field">Search exercises<input id="exerciseSearch" type="search" placeholder="Search by name, muscle, goal or family"></label>
+        <label>Family<select id="familyFilter"><option value="all">All families</option></select></label>
+        <label>Difficulty<select id="difficultyFilter"><option value="all">All levels</option><option value="foundation">Foundation</option><option value="beginner">Beginner</option><option value="intermediate">Intermediate</option><option value="advanced">Advanced</option></select></label>
+        <label>Equipment tier<select id="equipmentTierFilter"><option value="all">All tiers</option><option value="no-equipment">No equipment</option><option value="environmental-support">Wall / chair / bench</option><option value="calisthenics-equipment">Bar / parallel bars</option></select></label>
+        <label>Tracking<select id="trackingFilter"><option value="all">All tracking</option><option value="timer-guided">Timer-guided</option><option value="manual-repetition">Manual repetitions</option><option value="watch-experimental">Watch experimental</option></select></label>
+        <label class="check inline-check"><input id="quietFilter" type="checkbox"> Quiet only</label>
+      </section>
+      <div id="exerciseGrid" class="card-grid" aria-live="polite"></div>
+    </section>
+
+    <section id="programmes" class="route-page shell" data-page="programmes" hidden>
+      <div class="page-title-row"><div><p class="eyebrow">Structured training</p><h1>Programmes</h1><p class="lead compact">Start with an evidence-informed template or build your own session.</p></div><button id="openBuilderButton" class="button primary" type="button">Build custom programme</button></div>
+      <h2>System templates</h2>
+      <div id="programmeGrid" class="card-grid programme-grid"></div>
+      <div class="section-divider"></div>
+      <div class="section-heading"><div><p class="eyebrow">Your library</p><h2>Saved programmes</h2></div></div>
+      <div id="customProgrammeGrid" class="card-grid programme-grid"></div>
+    </section>
+
+    <section id="workout" class="route-page shell" data-page="workout" hidden>
+      <div class="workout-shell">
+        <div class="workout-header"><div><p class="eyebrow">Guided workout</p><h1 id="workoutPlanName">No workout active</h1></div><span id="workoutPhaseBadge" class="status-chip muted">Idle</span></div>
+        <div id="workoutEmpty" class="panel empty-workout"><h2>Choose a session first</h2><p>Generate a plan on Today or select a programme.</p><a class="button primary" href="#today">Build a session</a></div>
+        <div id="workoutActive" class="workout-active" hidden>
+          <section class="panel workout-stage">
+            <div id="workoutAvatar" class="workout-avatar"></div>
+            <p id="workoutPosition" class="mini-label"></p>
+            <h2 id="workoutExerciseName"></h2>
+            <p id="workoutCue" class="workout-cue"></p>
+            <div id="workoutMetric" class="workout-metric"></div>
+            <div class="progress-track"><span id="workoutProgressBar"></span></div>
+            <p id="workoutSetLabel"></p>
+            <div id="repControls" class="rep-controls">
+              <button id="minusRepButton" class="round-button" type="button" aria-label="Subtract one repetition">−</button>
+              <strong id="repReadout">0</strong>
+              <button id="plusRepButton" class="round-button" type="button" aria-label="Add one repetition">+</button>
+            </div>
+            <div class="workout-controls">
+              <button id="pauseWorkoutButton" class="button secondary" type="button">Pause</button>
+              <button id="completeSetButton" class="button primary" type="button">Complete set</button>
+              <button id="skipExerciseButton" class="button ghost" type="button">Skip</button>
+              <button id="extendRestButton" class="button ghost" type="button">+15s rest</button>
+              <button id="stopWorkoutButton" class="button danger" type="button">Stop</button>
+            </div>
+          </section>
+          <aside class="panel workout-queue"><p class="eyebrow">Up next</p><div id="workoutQueue"></div></aside>
+        </div>
+        <div id="workoutComplete" class="panel completion-card" hidden></div>
+      </div>
+    </section>
+
+    <section id="progress" class="route-page shell" data-page="progress" hidden>
+      <div class="page-title-row"><div><p class="eyebrow">Private local history</p><h1>Progress</h1><p class="lead compact">Track consistency and movement coverage without an account or cloud profile.</p></div><button id="exportDataButton" class="button secondary" type="button">Export data</button></div>
+      <div id="progressMetrics" class="metrics-grid"></div>
+      <div class="dashboard-grid">
+        <section class="panel"><h2>Movement coverage</h2><div id="familyCoverage" class="bar-chart"></div></section>
+        <section class="panel"><h2>Recent sessions</h2><div id="sessionHistory"></div></section>
+      </div>
+    </section>
+
+    <section id="learn" class="route-page shell" data-page="learn" hidden>
+      <div class="page-title-row"><div><p class="eyebrow">Training principles</p><h1>Learn</h1><p class="lead compact">The app favours clear progressions, balanced movement and controllable training over novelty.</p></div></div>
+      <div class="learn-grid">
+        <article class="panel"><span class="number">01</span><h2>Consistency first</h2><p>A manageable programme repeated over time is more useful than a complicated session that cannot be sustained.</p></article>
+        <article class="panel"><span class="number">02</span><h2>Progress one variable</h2><p>Improve technique, then repetitions, duration, sets, range, tempo or leverage. Avoid changing every variable at once.</p></article>
+        <article class="panel"><span class="number">03</span><h2>Balance patterns</h2><p>Use lower-body, push, pull or posterior-shoulder, trunk, conditioning, mobility and balance work across the week.</p></article>
+        <article class="panel"><span class="number">04</span><h2>Keep control</h2><p>Stop a set before movement quality collapses. Training to failure is not required for general fitness progress.</p></article>
+        <article class="panel"><span class="number">05</span><h2>Use regressions</h2><p>A regression is not failure. It is a way to practise the intended pattern with an appropriate level of load and control.</p></article>
+        <article class="panel"><span class="number">06</span><h2>Respect scope</h2><p>This app provides general exercise education, not diagnosis, injury assessment, physiotherapy or emergency advice.</p></article>
+      </div>
+      <section class="panel evidence-note"><h2>Programme basis</h2><p>The default templates emphasise regular muscle-strengthening, full-body movement coverage, scalable bodyweight work and progressive difficulty. They deliberately avoid appearance goals, calorie targets and extreme-volume challenges.</p></section>
+    </section>
+
+    <section id="settings" class="route-page shell" data-page="settings" hidden>
+      <div class="page-title-row"><div><p class="eyebrow">Preferences & privacy</p><h1>Settings</h1></div></div>
+      <div class="settings-grid">
+        <section class="panel"><h2>Coaching</h2><label class="switch-row"><span>Voice cues<small>Browser speech during workouts</small></span><input id="voiceSetting" type="checkbox" checked></label><label class="switch-row"><span>Sound cues<small>Short stage tones</small></span><input id="soundSetting" type="checkbox" checked></label><label class="switch-row"><span>Reduced motion<small>Minimise animation and transitions</small></span><input id="motionSetting" type="checkbox"></label><button id="installButton" class="button primary" type="button" hidden>Install app</button></section>
+        <section class="panel"><h2>Local data</h2><p>Your sessions and custom programmes are stored in this browser using IndexedDB.</p><label class="button secondary file-button">Import backup<input id="importDataInput" type="file" accept="application/json" hidden></label><button id="exportSettingsDataButton" class="button secondary" type="button">Export backup</button><button id="deleteDataButton" class="button danger" type="button">Delete all local data</button></section>
+        <section class="panel"><h2>Information</h2><a href="./privacy.html">Privacy statement</a><a href="./safety.html">Safety and scope</a><a href="./docs/BUILD_PROPOSAL.md">Build proposal</a><a href="https://github.com/ZenKOH/Calisthenics.Coach">Source repository</a><p class="fine-print">Version <span id="appVersion">1.0.0</span></p></section>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="exerciseDialog" class="detail-dialog">
+    <form method="dialog"><button class="dialog-close" aria-label="Close exercise details">Close</button></form>
+    <div id="exerciseDetail"></div>
+  </dialog>
+
+  <dialog id="builderDialog" class="builder-dialog">
+    <form method="dialog"><button class="dialog-close" aria-label="Close programme builder">Close</button></form>
+    <div class="section-heading"><div><p class="eyebrow">Custom programme</p><h2>Programme builder</h2></div><span id="builderCount" class="status-chip">0 exercises</span></div>
+    <label>Programme name<input id="builderName" type="text" maxlength="80" placeholder="My programme"></label>
+    <div id="builderList" class="builder-list"></div>
+    <div class="button-row"><button id="saveBuilderButton" class="button primary" type="button">Save programme</button><button id="clearBuilderButton" class="button ghost" type="button">Clear</button></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
